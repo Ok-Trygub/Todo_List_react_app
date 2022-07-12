@@ -10,8 +10,8 @@ const TodoItem = (props) => {
                 <hr/>
 
                 <label className="completed form-check">
-                    <input type="checkbox" className="form-check-input" name='completed'
-                           />
+                    <input type="checkbox" className="form-check-input" onChange={props.changeStatus(props.task.itemId)}
+                           checked={props.task.isCompleted}/>
                     <span>Завершено ?</span>
                 </label>
 

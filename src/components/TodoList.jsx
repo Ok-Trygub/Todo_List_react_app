@@ -69,11 +69,6 @@ const TodoList = () => {
         );
     }
 
-    // const changeComplete = (id) => (event) => {
-    //     setCompleted(true);
-    //
-    // }
-
     const clearForm = () => {
         setCurrentTitle('');
         setCurrentDescription('');
@@ -96,6 +91,26 @@ const TodoList = () => {
         else setItem(todosArr);
     }
 
+    const changeCompleteStatus = (id) => (event) => {
+        const {target} = event;
+
+        let todosArr = [...todos];
+
+        const currentItem = todos.findIndex(todoItem => {
+            return todoItem.itemId === id
+        });
+
+        todosArr[currentItem].isCompleted = target.checked;
+
+        setTodos(todosArr);
+        setItem(todosArr);
+    }
+
+    const removeAllTodos = () => {
+        localStorage.clear();
+        setTodos([]);
+    }
+
     useEffect(() => {
         const data = JSON.parse(
             localStorage.getItem(dbKey)
@@ -111,6 +126,7 @@ const TodoList = () => {
         return todos.map(item => {
             return <TodoItem task={item} key={item.itemId}
                              onRemove={removeItemHandler}
+                             changeStatus={changeCompleteStatus}
             />
         })
     }
@@ -156,7 +172,7 @@ const TodoList = () => {
                                     <Button variant="warning" onClick={clearForm}>Очистить</Button>
                                 </div>
 
-                                <Button variant="danger">Удалить все</Button>
+                                <Button variant="danger" onClick={removeAllTodos}>Удалить все</Button>
                             </div>
 
                         </form>
