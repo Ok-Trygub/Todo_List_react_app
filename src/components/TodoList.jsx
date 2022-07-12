@@ -16,6 +16,8 @@ const TodoList = () => {
 
         if (target.name === 'title') setCurrentTitle(target.value);
         if (target.name === 'description') setCurrentDescription(target.value);
+
+        console.log(currentTitle)
     }
 
     function addTask(event) {
@@ -190,3 +192,4 @@ const TodoList = () => {
 }
 
 export default TodoList;
+
