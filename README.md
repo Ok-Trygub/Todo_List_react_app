@@ -1,4 +1,4 @@
-## An implementation of the `ToDo List` using:
+### An implementation of the `ToDo List` using:
 
 - React + react-router
 - React-bootstrap
