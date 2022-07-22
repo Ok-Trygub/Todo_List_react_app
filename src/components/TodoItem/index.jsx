@@ -9,7 +9,7 @@ const TodoItem = ({title, description, id, checked, removeItem, changeStatus}) =
     const navigate = useNavigate();
 
     const redirect = () => {
-        navigate('single-todo/' + id)
+        navigate('todo-items/' + id)
     }
 
     return (
