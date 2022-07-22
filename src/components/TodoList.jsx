@@ -26,7 +26,6 @@ const TodoList = () => {
         const status = event.target.checked;
 
         const newState = Storage.changeItemStatus(id, status);
-        console.log(newState)
         setTodoItems(newState);
     }
 

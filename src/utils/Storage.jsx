@@ -67,7 +67,6 @@ class Storage extends React.Component {
         const currentItem = this.getCurrentItem(id, data)
 
         todosArr[currentItem].completed = status;
-        console.log(todosArr[currentItem])
 
         this.saveData(todosArr);
         return todosArr;
@@ -75,7 +74,12 @@ class Storage extends React.Component {
 
     removeItem(id) {
         const data = this.getItems();
-        console.log(data)
+        if (data.length === 1) {
+            this.clearStorage()
+
+            console.log(data)
+        }
+
 
         let todosArr = [...data];
 
@@ -84,15 +88,13 @@ class Storage extends React.Component {
         });
 
         todosArr.splice(currentItemIndex, 1);
-
         this.saveData(todosArr);
 
         return todosArr;
     }
 
-
     clearStorage() {
-        localStorage.clear();
+        localStorage.removeItem(this.#dbName);
         this.id = 1;
     }
 }
