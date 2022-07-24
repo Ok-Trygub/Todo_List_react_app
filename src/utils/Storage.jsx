@@ -3,17 +3,27 @@ import React from "react";
 class Storage extends React.Component {
     #dbName = 'todoForm';
     id = 1;
+    delay = 200;
 
     constructor(props) {
         super(props);
-        this.#getId();
+
+        try {
+            this.#getId();
+        } catch (e) {
+            console.log(e)
+        }
     }
 
-    #getId() {
-        const data = this.getItems();
-        if (!data) return;
+    async #getId() {
+        try {
+            const data = await this.getItems();
+            if (!data) return;
 
-        this.id = this.getItems().at(0).id + 1;
+            this.id = data.at(0).id + 1;
+        } catch (e) {
+            console.log(e);
+        }
     }
 
     getCurrentItem(id, todos) {
@@ -24,15 +34,23 @@ class Storage extends React.Component {
     }
 
     getItems() {
-        return JSON.parse(localStorage.getItem(this.#dbName));
+        return new Promise(resolve => {
+            setTimeout(
+                () => {
+                    resolve(
+                        JSON.parse(localStorage.getItem(this.#dbName))
+                    )
+                }, this.delay
+            )
+        })
     }
 
-    setItem(todoItem) {
+    async setItem(todoItem) {
         const localTodoItem = {...todoItem};
 
         if (typeof localTodoItem !== 'object') throw new Error('should be an object data type!');
 
-        const existingItems = this.getItems();
+        const existingItems = await this.getItems();
 
         const dataToSave = existingItems ? existingItems : [];
 
@@ -44,42 +62,35 @@ class Storage extends React.Component {
 
         dataToSave.unshift(currentTodo);
 
-        this.saveData(dataToSave);
+        await this.saveData(dataToSave);
 
         this.id += 1;
 
         return dataToSave;
     }
 
-    saveData(todoArr) {
-        localStorage.setItem(
+    async saveData(todoArr) {
+        await localStorage.setItem(
             this.#dbName,
             JSON.stringify(
                 todoArr)
         );
     }
 
-    changeItemStatus(id, status) {
-        const data = this.getItems();
+    async changeItemStatus(id, status) {
+        const data = await this.getItems();
 
         let todosArr = [...data];
 
         const currentItem = this.getCurrentItem(id, data)
-
         todosArr[currentItem].completed = status;
 
-        this.saveData(todosArr);
+       await this.saveData(todosArr);
         return todosArr;
     }
 
-    removeItem(id) {
-        const data = this.getItems();
-        if (data.length === 1) {
-            this.clearStorage()
-
-            console.log(data)
-        }
-
+    async removeItem(id) {
+        const data = await this.getItems();
 
         let todosArr = [...data];
 
@@ -88,13 +99,13 @@ class Storage extends React.Component {
         });
 
         todosArr.splice(currentItemIndex, 1);
-        this.saveData(todosArr);
+        await this.saveData(todosArr);
 
         return todosArr;
     }
 
-    clearStorage() {
-        localStorage.removeItem(this.#dbName);
+   async clearStorage() {
+        await localStorage.removeItem(this.#dbName);
         this.id = 1;
     }
 }

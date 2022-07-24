@@ -1,24 +1,17 @@
 import Button from "react-bootstrap/Button";
 import InputGroup from 'react-bootstrap/InputGroup';
-import './style.css'
-import {useNavigate} from 'react-router-dom'
 
-const TodoItem = ({title, description, id, checked, removeItem, changeStatus}) => {
 
-    const navigate = useNavigate();
-
-    const redirect = () => {
-        navigate('todo-items/' + id)
-    }
+const SingleTodoItem = ({title, description, id, status, removeItem, changeTodoStatus}) => {
 
     return (
         <div className="taskWrapper">
-            <div className="taskHeading" onClick={redirect}>{title}</div>
+            <div className="taskHeading">{title}</div>
             <div className="taskDescription">{description}</div>
 
             <hr/>
             <InputGroup className="mb-3">
-                <InputGroup.Checkbox checked={checked} onChange={changeStatus(id)}/>
+                <InputGroup.Checkbox onChange={changeTodoStatus(id)} checked={status}/>
                 <span>Завершено ?</span>
             </InputGroup>
 
@@ -28,4 +21,4 @@ const TodoItem = ({title, description, id, checked, removeItem, changeStatus}) =
     )
 }
 
-export default TodoItem;
+export default SingleTodoItem;
