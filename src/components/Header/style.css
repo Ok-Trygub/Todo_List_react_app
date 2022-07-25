@@ -1,0 +1,14 @@
+.titleWrapper {
+    background-color: #212529;
+    padding: 15px 0 15px 80px;
+    margin-bottom: 50px;
+    display: flex;
+    align-items: center;
+}
+
+.listTitle {
+    color: white;
+    font-size: 30px;
+    display: inline-block;
+    margin: 0 0 0 10px;
+}

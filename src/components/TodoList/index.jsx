@@ -2,11 +2,14 @@ import React, {useState, useEffect} from 'react';
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
-import TodoForm from "./TodoForm";
-import TodoItem from "./TodoItem/index";
-import Storage from "../utils/Storage";
-import withLoader from "./hoc/withLoader";
-import changeStatus from "../utils/ChangeStatus";
+import TodoForm from "../TodoForm";
+import TodoItem from "../TodoItem";
+import Footer from "../Footer";
+import Storage from "../../utils/Storage";
+import withLoader from "../hoc/withLoader";
+import changeStatus from "../../utils/ChangeStatus";
+import Header from "../Header";
+import './style.css'
 
 
 const TodoList = () => {
@@ -42,21 +45,9 @@ const TodoList = () => {
         setIsLoading(false);
     }
 
-    // const changeStatus = (id) => async (event) => {
-    //     const status = event.target.checked;
-    //
-    //     const newState = await Storage.changeItemStatus(id, status);
-    //     console.log(newState)
-    //
-    //     setTodoItems(newState);
-    // }
-
 
     const changeTodoStatus = (id) => async (event) => {
-
         const newState = await changeStatus(id, event)
-        console.log(newState)
-
         setTodoItems(newState);
     }
 
@@ -72,7 +63,7 @@ const TodoList = () => {
 
     const renderTodos = () => {
         return (
-            <Row>
+            <Row className='todosWrapper'>
                 {todoItems.map(
                     ({title, description, id, completed}) => (
                         <Col xs={4} key={id}>
@@ -94,20 +85,22 @@ const TodoList = () => {
     const TodoWithLoader = withLoader(renderTodos, isLoading);
 
     return (
-        <main>
-            <h1 className="text-center mt-5 mb-5">---------------- MY TODO LIST -----------------</h1>
-            <Container>
-                <Row>
-                    <Col xs={4}>
-                        <FormWithLoader handleSubmit={createTodoItem} removeAll={removeAllTodos}/>
-                        {/*{isLoading ? <Loader/> : <TodoForm handleSubmit={createTodoItem} removeAll={removeAllTodos}/>}*/}
-                    </Col>
-                    <Col xs={8}>
-                        <TodoWithLoader/>
-                    </Col>
-                </Row>
-            </Container>
-        </main>
+        <>
+            <Header/>
+            <main>
+                <Container>
+                    <Row>
+                        <Col xs={4}>
+                            <FormWithLoader handleSubmit={createTodoItem} removeAll={removeAllTodos}/>
+                        </Col>
+                        <Col xs={8}>
+                            <TodoWithLoader/>
+                        </Col>
+                    </Row>
+                </Container>
+            </main>
+            <Footer/>
+        </>
     )
 }
 

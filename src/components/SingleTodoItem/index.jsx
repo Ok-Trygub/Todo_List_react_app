@@ -6,17 +6,17 @@ const SingleTodoItem = ({title, description, id, status, removeItem, changeTodoS
 
     return (
         <div className="taskWrapper">
-            <div className="taskHeading">{title}</div>
+            <div className="taskHeading gold">{title}</div>
             <div className="taskDescription">{description}</div>
 
             <hr/>
             <InputGroup className="mb-3">
                 <InputGroup.Checkbox onChange={changeTodoStatus(id)} checked={status}/>
-                <span>Завершено ?</span>
+                <span className='checkboxQuestion'>Completed?</span>
             </InputGroup>
 
             <hr/>
-            <Button variant="danger" onClick={removeItem(id)}>Удалить</Button>
+            <Button variant="danger" onClick={removeItem(id)}>Remove</Button>
         </div>
     )
 }

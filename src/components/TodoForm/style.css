@@ -1,0 +1,11 @@
+.fieldName{
+    margin-bottom: 4px;
+    font-weight: 600;
+    color: white;
+}
+
+.validationError {
+    font-size: 12px;
+    font-weight: bold;
+    color: #dc3545;
+}

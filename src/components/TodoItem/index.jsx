@@ -13,17 +13,17 @@ const TodoItem = ({title, description, id, checked, removeItem, changeStatus}) =
 
     return (
         <div className="taskWrapper">
-            <div className="taskHeading" onClick={redirect}>{title}</div>
+            <div className="taskHeading taskTitle" onClick={redirect}>{title}</div>
             <div className="taskDescription">{description}</div>
 
             <hr/>
             <InputGroup className="mb-3">
                 <InputGroup.Checkbox checked={checked} onChange={changeStatus(id)}/>
-                <span>Завершено ?</span>
+                <span className='checkboxQuestion'>Completed?</span>
             </InputGroup>
 
             <hr/>
-            <Button variant="danger" onClick={removeItem(id)}>Удалить</Button>
+            <Button variant="danger" onClick={removeItem(id)}>Remove</Button>
         </div>
     )
 }

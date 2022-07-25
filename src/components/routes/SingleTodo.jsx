@@ -1,7 +1,9 @@
 import React, {useState, useEffect} from 'react';
 import {useNavigate, useParams} from 'react-router-dom';
 import Container from "react-bootstrap/Container";
-import SingleTodoItem from "../SingleTodoItem/SingleTodoItem";
+import Header from "../Header";
+import Footer from "../Footer";
+import SingleTodoItem from "../SingleTodoItem";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import Storage from "../../utils/Storage";
@@ -43,22 +45,33 @@ const SingleTodo = () => {
     }
 
     return (
-        <div className='mt-5'>
-            <Container>
-                <Row>
-                    <Col xs={4}>
-                        <SingleTodoItem
-                            title={singleItem.title}
-                            id={singleItem.id}
-                            description={singleItem.description}
-                            status={singleItem.completed}
-                            changeTodoStatus={changeTodoStatus}
-                            removeItem={removeTodoItem}
-                        />
-                    </Col>
-                </Row>
-            </Container>
-        </div>
+        <>
+            <Header/>
+            <main>
+                <Container>
+                    <Row className='d-flex justify-content-center'>
+                        <h1
+                            style={{
+                                color: 'white',
+                                marginBottom: '24px',
+                                textAlign: 'center'
+                            }}
+                        >Task №{singleItem.id}:</h1>
+                        <Col xs={4}>
+                            <SingleTodoItem
+                                title={singleItem.title}
+                                id={singleItem.id}
+                                description={singleItem.description}
+                                status={singleItem.completed}
+                                changeTodoStatus={changeTodoStatus}
+                                removeItem={removeTodoItem}
+                            />
+                        </Col>
+                    </Row>
+                </Container>
+            </main>
+            <Footer/>
+        </>
     );
 };
 

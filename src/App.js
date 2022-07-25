@@ -6,12 +6,12 @@ import SingleTodo from "./components/routes/SingleTodo";
 
 function App() {
     return (
-        <>
+        <div className="App">
                 <Routes>
                     <Route path='/' element={<TodoList/>}/>
                     <Route path='/todo-items/:id' element={<SingleTodo/>}/>
                 </Routes>
-        </>
+        </div>
     );
 }
 
