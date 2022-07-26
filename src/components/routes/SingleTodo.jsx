@@ -31,6 +31,20 @@ const SingleTodo = () => {
         fetchData();
     }, [])
 
+
+   const editTodo = (newValue) => {
+        console.log(newValue)
+
+        // const localInput = {...singleItem};
+        // const key = newValue(key)
+        //
+        // localInput[inputName] = newValue;
+        // setSingleItem(localInput);
+
+
+    }
+
+
     const changeTodoStatus = (id) => async (event) => {
 
         const newState = await changeStatus(id, event)
@@ -46,7 +60,7 @@ const SingleTodo = () => {
 
     return (
         <>
-            <Header/>
+            <Header redirect={redirect}/>
             <main>
                 <Container>
                     <Row className='d-flex justify-content-center'>
@@ -65,6 +79,7 @@ const SingleTodo = () => {
                                 status={singleItem.completed}
                                 changeTodoStatus={changeTodoStatus}
                                 removeItem={removeTodoItem}
+                                inputHandler={editTodo}
                             />
                         </Col>
                     </Row>

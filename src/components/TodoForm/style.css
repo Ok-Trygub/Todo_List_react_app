@@ -1,4 +1,4 @@
-.fieldName{
+.fieldName {
     margin-bottom: 4px;
     font-weight: 600;
     color: white;
@@ -8,4 +8,9 @@
     font-size: 12px;
     font-weight: bold;
     color: #dc3545;
+}
+
+.fieldInput::placeholder {
+    background: url("./images/pencil.svg") no-repeat;
+    background-position: top 50% left 0;
 }

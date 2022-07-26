@@ -50,7 +50,8 @@ const TodoForm = (props) => {
                         <Form.Control
                             name='title'
                             type="text"
-                            placeholder="Title"
+                            className='fieldInput'
+                            placeholder=" "
                             onChange={handleChange}
                             onBlur={handleBlur}
                             value={values.title}
@@ -62,7 +63,8 @@ const TodoForm = (props) => {
                         <Form.Label className='fieldName'>Task description:</Form.Label>
                         <Form.Control as="textarea"
                                       name='description'
-                                      placeholder="Description"
+                                      className='fieldInput'
+                                      placeholder=" "
                                       style={{height: '200px'}}
                                       onChange={handleChange}
                                       onBlur={handleBlur}
