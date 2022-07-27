@@ -32,16 +32,14 @@ const SingleTodo = () => {
     }, [])
 
 
-   const editTodo = (newValue) => {
-        console.log(newValue)
+    const editTodo = async (inputName, newValue) => {
 
-        // const localInput = {...singleItem};
-        // const key = newValue(key)
-        //
-        // localInput[inputName] = newValue;
-        // setSingleItem(localInput);
+        const localInput = {...singleItem};
 
+        localInput[inputName] = newValue[inputName];
+        setSingleItem(localInput);
 
+        await Storage.changeItemData(localInput);
     }
 
 
@@ -51,13 +49,13 @@ const SingleTodo = () => {
         setSingleItem(newState[0]);
     }
 
+
     const removeTodoItem = (id) => async () => {
         await Storage.removeItem(id);
         setSingleItem({});
 
         redirect();
     }
-
     return (
         <>
             <Header redirect={redirect}/>

@@ -8,63 +8,41 @@ import {Formik} from 'formik';
 import * as Yup from 'yup';
 import Form from "react-bootstrap/Form";
 
-import Storage from "../../utils/Storage";
-
 
 const SingleTodoItem = ({title, description, id, status, removeItem, changeTodoStatus, inputHandler}) => {
 
-    // const [editInput, setInput] = useState({
-    //     editTitle: false,
-    //     editDescription: false
-    // });
+    const [editInput, setInput] = useState({
+        editTitle: false,
+        editDescription: false
+    });
 
 
-    const formSubmitHandler = (values) => {
-        let newValue = values;
+    const formSubmitHandler = (inputName) => (values) => {
+        inputHandler(inputName, values)
 
-        console.log(values)
+        const newState = {...editInput}
 
-        inputHandler(values)
+        if (inputName === 'title') newState.editTitle = !editInput.editTitle;
+        else newState.editDescription = !editInput.editDescription;
 
-
-
-        Storage.changeItemData(newValue, id);
-        //
-        // const newState = {...editInput}
-        // newState[title] = !editInput[title]
+        setInput(newState)
     }
 
 
+    const isEdit = (inputName) => () => {
 
+        const newState = {...editInput}
+        newState[inputName] = !editInput[inputName]
 
-
-    // const isEdit = (inputName) => () => {
-    //     console.log(editInput)
-    //
-    //     const newState = {...editInput}
-    //     newState[inputName] = !editInput[inputName]
-    //
-    //     setInput(newState)
-    // }
-
-    const validationSchema = Yup.object({
-        title: Yup.string()
-            .max(50, 'Must be 50 characters or less')
-            .required('This field is required')
-            .trim(),
-
-        // description: Yup.string()
-        //     .max(200, 'Must be 200 characters or less')
-        //     .required('This field is required')
-        //     .trim()
-    })
+        setInput(newState)
+    }
 
 
     const renderTitle = () => {
         return (
             <div className="taskHeading inputWrapper">{title}
                 <div>
-                    <button className='editBtn' onClick={isEdit('title')}>
+                    <button className='editBtn' onClick={isEdit('editTitle')}>
                         <EditButton color='white'/>
                     </button>
                 </div>
@@ -74,17 +52,23 @@ const SingleTodoItem = ({title, description, id, status, removeItem, changeTodoS
 
 
     const renderEditTitle = () => {
+
         const formInitialValues = {
             title: title,
         }
-        return (
 
+        const validationSchema = Yup.object({
+        title: Yup.string()
+            .max(50, 'Must be 50 characters or less')
+            .required('This field is required')
+            .trim(),
+        })
+        return (
             <Formik
                 initialValues={formInitialValues}
-                onSubmit={formSubmitHandler}
+                onSubmit={formSubmitHandler('title')}
                 validationSchema={validationSchema}
             >
-
                 {({
                       values,
                       handleChange,
@@ -94,68 +78,117 @@ const SingleTodoItem = ({title, description, id, status, removeItem, changeTodoS
                       errors
                   }) => (
                     <Form onSubmit={handleSubmit}>
-                        <Form.Group className="mb-3 d-flex justify-content-between align-items-center"
+                        <Form.Group className="mb-3"
                                     controlId="todoFormDescription">
-                            <div className='taskHeading inputWrapper w-100'>
-                                <Form.Control as="textarea"
-                                              name='title'
-                                              className='editTitle editTodoTitle'
-                                              onChange={handleChange}
-                                              onBlur={handleBlur}
-                                              value={values.title}
-                                />
-                            </div>
-
                             <div>
-                                <button type='submit' className='editBtn' onClick={isEdit('title')}>
-                                    <SaveButton/>
-                                </button>
+                                <div className='d-flex justify-content-between align-items-center'>
+                                    <div className='taskHeading inputWrapper w-100'>
+                                        <Form.Control as="textarea"
+                                                      name='title'
+                                                      className='editTitle editTodoTitle'
+                                                      onChange={handleChange}
+                                                      onBlur={handleBlur}
+                                                      value={values.title}
+                                        />
+                                    </div>
+
+                                    <div>
+                                        <button type='submit' className='editBtn'>
+                                            <SaveButton/>
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <div>
+                                    {touched.title && errors.title && <p className='validationError'>{errors.title}</p>}
+                                </div>
                             </div>
-                            {touched.title && errors.title && <p className='validationError'>{errors.title}</p>}
                         </Form.Group>
                     </Form>
                 )}
             </Formik>
-
-
         )
     }
 
-    // const renderDescription = () => {
-    //     return (
-    //         <div className="taskDescription inputWrapper">{description}
-    //             <div>
-    //                 <button className='editBtn' onClick={isEdit('description')}>
-    //                     <EditButton/>
-    //                 </button>
-    //             </div>
-    //         </div>
-    //     )
-    // }
-    //
-    // const renderEditDescription = () => {
-    //     return (
-    //         <div className="taskDescription inputWrapper">
-    //                   <textarea
-    //                       type="text"
-    //                       className='editDescription'
-    //                       value={inputData['description']}
-    //                       onChange={editTodoData('description')}
-    //                   />
-    //             <div>
-    //                 <button className='editBtn' onClick={isEdit('description')}>
-    //                     <SaveButton/>
-    //                 </button>
-    //             </div>
-    //         </div>
-    //     )
-    // }
+
+    const renderDescription = () => {
+        return (
+            <div className="taskDescription inputWrapper">{description}
+                <div>
+                    <button className='editBtn' onClick={isEdit('editDescription')}>
+                        <EditButton/>
+                    </button>
+                </div>
+            </div>
+        )
+    }
+
+    const renderEditDescription = () => {
+        const formInitialValues = {
+            description: description
+        }
+
+        const validationSchema = Yup.object({
+            description: Yup.string()
+                .max(200, 'Must be 200 characters or less')
+                .required('This field is required')
+                .trim()
+        })
+        return (
+            <Formik
+                initialValues={formInitialValues}
+                onSubmit={formSubmitHandler('description')}
+                validationSchema={validationSchema}
+            >
+                 {({
+                      values,
+                      handleChange,
+                      handleBlur,
+                      handleSubmit,
+                      touched,
+                      errors
+                  }) => (
+                    <Form onSubmit={handleSubmit}>
+                        <Form.Group className="mb-3"
+                                    controlId="todoFormDescription">
+
+                            <div>
+                                <div className='d-flex justify-content-between align-items-center'>
+                                    <div className="taskDescription inputWrapper">
+                                        <Form.Control as="textarea"
+                                                      name='description'
+                                                      className='editTodoDescription'
+                                                      onChange={handleChange}
+                                                      onBlur={handleBlur}
+                                                      value={values.description}
+                                        />
+                                    </div>
+
+                                    <div>
+                                        <button type='submit' className='editBtn'>
+                                            <SaveButton/>
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <div>
+                                    {touched.description && errors.description &&
+                                        <p className='validationError'>{errors.description}</p>}
+                                </div>
+                            </div>
+                        </Form.Group>
+                    </Form>
+                )}
+            </Formik>
+        )
+    }
+
 
     return (
         <div className="taskWrapper">
 
-       renderTitle()
-            {editInput.description ? renderEditDescription() : renderDescription()}
+            {editInput.editTitle ? renderEditTitle() : renderTitle()}
+            {editInput.editDescription ? renderEditDescription() : renderDescription()}
 
             <hr/>
             <InputGroup className="mb-3">
@@ -171,118 +204,3 @@ const SingleTodoItem = ({title, description, id, status, removeItem, changeTodoS
 }
 
 export default SingleTodoItem;
-
-
-
-
-
-
-
-
-
-// const SingleTodoItem = ({title, description, id, status, removeItem, changeTodoStatus, inputHandler}) => {
-//     const [editInput, setInput] = useState({
-//         title: false,
-//         description: false
-//     });
-//     const [inputData, setInputData] = useState('');
-//
-//
-//     const editTodoData = inputName => ({target}) => {
-//         let newValue = target.value;
-//         setInputData(newValue);
-//
-//         inputHandler(inputName, newValue)
-//     }
-//
-//     const isEdit = (inputName) => () => {
-//         const newState = {...editInput}
-//         newState[inputName] = !editInput[inputName]
-//
-//         setInput(newState)
-//     }
-//
-//
-//     const renderTitle = () => {
-//         return (
-//             <div className="taskHeading inputWrapper">{title}
-//                 <div>
-//                     <button className='editBtn' onClick={isEdit('title')}>
-//                         <EditButton color='white'/>
-//                     </button>
-//                 </div>
-//             </div>
-//         )
-//     }
-//
-//     const renderEditTitle = () => {
-//         return (
-//             <div className='d-flex justify-content-between align-items-center'>
-//                 <div className="taskHeading inputWrapper w-100">
-//                 <textarea
-//                     type="text"
-//                     value={inputData['title']}
-//                     className='editTitle'
-//                     onChange={editTodoData('title')}
-//                 />
-//                 </div>
-//
-//                 <div>
-//                     <button className='editBtn' onClick={isEdit('title')}>
-//                         <SaveButton/>
-//                     </button>
-//                 </div>
-//             </div>
-//         )
-//     }
-//
-//     const renderDescription = () => {
-//         return (
-//             <div className="taskDescription inputWrapper">{description}
-//                 <div>
-//                     <button className='editBtn' onClick={isEdit('description')}>
-//                         <EditButton/>
-//                     </button>
-//                 </div>
-//             </div>
-//         )
-//     }
-//
-//     const renderEditDescription = () => {
-//         return (
-//             <div className="taskDescription inputWrapper">
-//                       <textarea
-//                           type="text"
-//                           className='editDescription'
-//                           value={inputData['description']}
-//                           onChange={editTodoData('description')}
-//                       />
-//                 <div>
-//                     <button className='editBtn' onClick={isEdit('description')}>
-//                         <SaveButton/>
-//                     </button>
-//                 </div>
-//             </div>
-//         )
-//     }
-//
-//     return (
-//         <div className="taskWrapper">
-//
-//             {editInput.title ? renderEditTitle() : renderTitle()}
-//             {editInput.description ? renderEditDescription() : renderDescription()}
-//
-//             <hr/>
-//             <InputGroup className="mb-3">
-//                 <InputGroup.Checkbox onChange={changeTodoStatus(id)} checked={status}/>
-//
-//                 <span className='checkboxQuestion'>Completed?</span>
-//             </InputGroup>
-//
-//             <hr/>
-//             <Button variant="danger" onClick={removeItem(id)}>Remove</Button>
-//         </div>
-//     )
-// }
-//
-// export default SingleTodoItem;

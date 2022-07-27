@@ -90,24 +90,17 @@ class Storage extends React.Component {
     }
 
 
-    async changeItemData(todoItem, id) {
-        console.log(todoItem)
+    async changeItemData(todoItem) {
         const data = await this.getItems();
 
         let todosArr = [...data];
-        const currentItem = this.getCurrentItem(id, data)
-        console.log(currentItem)
+        const currentItem = this.getCurrentItem(todoItem.id, data)
 
         todosArr[currentItem].title = todoItem.title;
 
         await this.saveData(todosArr);
         return todosArr;
     }
-
-
-
-
-
 
 
     async removeItem(id) {
