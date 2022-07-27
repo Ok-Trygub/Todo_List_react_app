@@ -6,7 +6,7 @@ import TodoForm from "../TodoForm";
 import TodoItem from "../TodoItem";
 import Footer from "../Footer";
 import Storage from "../../utils/Storage";
-import withLoader from "../hoc/withLoader";
+import withLoader from "../../hoc/withLoader";
 import changeStatus from "../../utils/ChangeStatus";
 import Header from "../Header";
 import './style.css'

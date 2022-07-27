@@ -2,7 +2,7 @@ import Button from "react-bootstrap/Button";
 import renderCheckbox from "./renderCheckbox";
 import './style.css'
 import {useNavigate} from 'react-router-dom'
-import withLoader from "../hoc/withLoader";
+import withLoader from "../../hoc/withLoader";
 
 const TodoItem = ({title, description, id, checked, removeItem, changeStatus, isLoading}) => {
 

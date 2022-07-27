@@ -1,7 +1,7 @@
 import TodoList from "./components/TodoList";
 import {Route, Routes} from "react-router-dom";
 import React from "react";
-import SingleTodo from "./components/routes/SingleTodo";
+import SingleTodo from "./routes/SingleTodo";
 
 
 function App() {

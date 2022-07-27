@@ -1,13 +1,13 @@
 import React, {useState, useEffect} from 'react';
 import {useNavigate, useParams} from 'react-router-dom';
 import Container from "react-bootstrap/Container";
-import Header from "../Header";
-import Footer from "../Footer";
-import SingleTodoItem2 from "../SingleTodoItem";
+import Header from "../components/Header";
+import Footer from "../components/Footer";
+import SingleTodoItem2 from "../components/SingleTodoItem";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
-import Storage from "../../utils/Storage";
-import changeStatus from "../../utils/ChangeStatus";
+import Storage from "../utils/Storage";
+import changeStatus from "../utils/ChangeStatus";
 
 
 const SingleTodo = () => {
