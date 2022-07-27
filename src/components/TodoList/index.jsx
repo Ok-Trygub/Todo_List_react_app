@@ -18,7 +18,6 @@ const TodoList = () => {
 
 
     useEffect(() => {
-
         const fetchData = async () => {
             let dataFromStorage = [];
 
@@ -47,8 +46,12 @@ const TodoList = () => {
 
 
     const changeTodoStatus = (id) => async (event) => {
+        setIsLoading(true);
+
         const newState = await changeStatus(id, event)
         setTodoItems(newState);
+
+        setIsLoading(false);
     }
 
     const removeTodoItem = (id) => async () => {
@@ -74,6 +77,7 @@ const TodoList = () => {
                                 removeItem={removeTodoItem}
                                 changeStatus={changeTodoStatus}
                                 checked={completed}
+                                isLoading={isLoading}
                             />
                         </Col>
                     ))}

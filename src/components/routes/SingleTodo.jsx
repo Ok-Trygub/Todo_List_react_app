@@ -3,7 +3,7 @@ import {useNavigate, useParams} from 'react-router-dom';
 import Container from "react-bootstrap/Container";
 import Header from "../Header";
 import Footer from "../Footer";
-import SingleTodoItem from "../SingleTodoItem";
+import SingleTodoItem2 from "../SingleTodoItem";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import Storage from "../../utils/Storage";
@@ -15,13 +15,11 @@ const SingleTodo = () => {
     const [singleItem, setSingleItem] = useState({});
 
     const navigate = useNavigate();
-
     const redirect = () => {
         navigate('/')
     }
 
     useEffect(() => {
-
         const fetchData = async () => {
             const dataFromStorage = await Storage.getItems();
             const item = dataFromStorage.find(item => item.id === +id)
@@ -33,7 +31,6 @@ const SingleTodo = () => {
 
 
     const editTodo = async (inputName, newValue) => {
-
         const localInput = {...singleItem};
 
         localInput[inputName] = newValue[inputName];
@@ -43,9 +40,8 @@ const SingleTodo = () => {
     }
 
 
-    const changeTodoStatus = (id) => async (event) => {
-
-        const newState = await changeStatus(id, event)
+    const changeTodoStatus = async (event) => {
+        const newState = await changeStatus(singleItem.id, event)
         setSingleItem(newState[0]);
     }
 
@@ -70,11 +66,8 @@ const SingleTodo = () => {
                             }}
                         >Task №{singleItem.id}:</h1>
                         <Col xs={4}>
-                            <SingleTodoItem
-                                title={singleItem.title}
-                                id={singleItem.id}
-                                description={singleItem.description}
-                                status={singleItem.completed}
+                            <SingleTodoItem2
+                                {...singleItem}
                                 changeTodoStatus={changeTodoStatus}
                                 removeItem={removeTodoItem}
                                 inputHandler={editTodo}

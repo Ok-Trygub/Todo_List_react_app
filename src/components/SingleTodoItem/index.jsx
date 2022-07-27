@@ -10,28 +10,35 @@ import Form from "react-bootstrap/Form";
 
 
 const SingleTodoItem = ({title, description, id, status, removeItem, changeTodoStatus, inputHandler}) => {
+    console.log(status) // true || false
 
     const [editInput, setInput] = useState({
         editTitle: false,
-        editDescription: false
+        editDescription: false,
+        checkBoxStatus: status  // undefined
     });
+
+    console.log(editInput)
 
 
     const formSubmitHandler = (inputName) => (values) => {
         inputHandler(inputName, values)
 
         const newState = {...editInput}
-
         if (inputName === 'title') newState.editTitle = !editInput.editTitle;
         else newState.editDescription = !editInput.editDescription;
 
         setInput(newState)
     }
 
+    const changeCompleted = (event) => {
+        changeTodoStatus(event)
+    }
+
 
     const isEdit = (inputName) => () => {
-
         const newState = {...editInput}
+
         newState[inputName] = !editInput[inputName]
 
         setInput(newState)
@@ -50,7 +57,6 @@ const SingleTodoItem = ({title, description, id, status, removeItem, changeTodoS
         )
     }
 
-
     const renderEditTitle = () => {
 
         const formInitialValues = {
@@ -58,10 +64,10 @@ const SingleTodoItem = ({title, description, id, status, removeItem, changeTodoS
         }
 
         const validationSchema = Yup.object({
-        title: Yup.string()
-            .max(50, 'Must be 50 characters or less')
-            .required('This field is required')
-            .trim(),
+            title: Yup.string()
+                .max(50, 'Must be 50 characters or less')
+                .required('This field is required')
+                .trim(),
         })
         return (
             <Formik
@@ -110,7 +116,6 @@ const SingleTodoItem = ({title, description, id, status, removeItem, changeTodoS
         )
     }
 
-
     const renderDescription = () => {
         return (
             <div className="taskDescription inputWrapper">{description}
@@ -140,7 +145,7 @@ const SingleTodoItem = ({title, description, id, status, removeItem, changeTodoS
                 onSubmit={formSubmitHandler('description')}
                 validationSchema={validationSchema}
             >
-                 {({
+                {({
                       values,
                       handleChange,
                       handleBlur,
@@ -186,15 +191,13 @@ const SingleTodoItem = ({title, description, id, status, removeItem, changeTodoS
 
     return (
         <div className="taskWrapper">
-
             {editInput.editTitle ? renderEditTitle() : renderTitle()}
             {editInput.editDescription ? renderEditDescription() : renderDescription()}
-
             <hr/>
-            <InputGroup className="mb-3">
-                <InputGroup.Checkbox onChange={changeTodoStatus(id)} checked={status}/>
 
-                <span className='checkboxQuestion'>Completed?</span>
+            <InputGroup className="mb-3">
+                <InputGroup.Checkbox checked={editInput.checkBoxStatus} onChange={changeCompleted}/>
+                <span className='checkboxQuestion'>Completed ?</span>
             </InputGroup>
 
             <hr/>

@@ -1,9 +1,10 @@
 import Button from "react-bootstrap/Button";
-import InputGroup from 'react-bootstrap/InputGroup';
+import renderCheckbox from "./renderCheckbox";
 import './style.css'
 import {useNavigate} from 'react-router-dom'
+import withLoader from "../hoc/withLoader";
 
-const TodoItem = ({title, description, id, checked, removeItem, changeStatus}) => {
+const TodoItem = ({title, description, id, checked, removeItem, changeStatus, isLoading}) => {
 
     const navigate = useNavigate();
 
@@ -11,17 +12,15 @@ const TodoItem = ({title, description, id, checked, removeItem, changeStatus}) =
         navigate('todo-items/' + id)
     }
 
+    const StatusWithLoader = withLoader(renderCheckbox, isLoading);
+
     return (
         <div className="taskWrapper">
             <div className="taskHeading taskTitle" onClick={redirect}>{title}</div>
             <div className="taskDescription">{description}</div>
 
             <hr/>
-            <InputGroup className="mb-3">
-                <InputGroup.Checkbox checked={checked} onChange={changeStatus(id)}/>
-                <span className='checkboxQuestion'>Completed?</span>
-            </InputGroup>
-
+            <StatusWithLoader checked={checked} id={id} changeStatus={changeStatus}/>
             <hr/>
             <Button variant="danger" onClick={removeItem(id)}>Remove</Button>
         </div>

@@ -3,7 +3,7 @@ import React from "react";
 class Storage extends React.Component {
     #dbName = 'todoForm';
     id = 1;
-    delay = 200;
+    delay = 1200;
 
     constructor(props) {
         super(props);
