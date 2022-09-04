@@ -31,6 +31,7 @@ const SingleTodo = () => {
 
 
     const editTodo = async (inputName, newValue) => {
+
         const localInput = {...singleItem};
 
         localInput[inputName] = newValue[inputName];

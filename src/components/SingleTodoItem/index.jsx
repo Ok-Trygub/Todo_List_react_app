@@ -10,15 +10,13 @@ import Form from "react-bootstrap/Form";
 
 
 const SingleTodoItem = ({title, description, id, status, removeItem, changeTodoStatus, inputHandler}) => {
-    console.log(status) // true || false
 
     const [editInput, setInput] = useState({
         editTitle: false,
         editDescription: false,
-        checkBoxStatus: status  // undefined
+        checkBoxStatus: status
     });
 
-    console.log(editInput)
 
 
     const formSubmitHandler = (inputName) => (values) => {

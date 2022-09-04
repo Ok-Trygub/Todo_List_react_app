@@ -97,6 +97,7 @@ class Storage extends React.Component {
         const currentItem = this.getCurrentItem(todoItem.id, data)
 
         todosArr[currentItem].title = todoItem.title;
+        todosArr[currentItem].description = todoItem.description;
 
         await this.saveData(todosArr);
         return todosArr;
